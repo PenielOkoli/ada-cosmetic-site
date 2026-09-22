@@ -84,6 +84,9 @@ const campaignPhotos = [
   { src: "/images/campaign-4.jpg", alt: "Hands holding GARDIN Baked Vanilla body oil" },
   { src: "/images/campaign-9.jpg", alt: "GARDIN muse with Baked Vanilla body butter" },
   { src: "/images/campaign-1.jpg", alt: "Two GARDIN muses with body butter" },
+  { src: "/images/campaign-3.jpg", alt: "GARDIN muse holding Baked Vanilla body oil close" },
+  { src: "/images/campaign-6.jpg", alt: "GARDIN campaign close portrait" },
+  { src: "/images/campaign-5.jpg", alt: "GARDIN muse holding Baked Vanilla body oil" },
 ];
 
 export default function Home() {
@@ -108,17 +111,19 @@ export default function Home() {
       <section className="hero" id="top">
         <Image className="hero-image" src="/images/product-baked-vanilla-butter.jpg" alt="GARDIN Baked Vanilla body butter among vanilla ice cream and caramel" fill priority sizes="100vw" />
         <div className="hero-wash" />
+        <div className="hero-ribbon"><span>Baked Vanilla</span><i>✦</i><span>Honey Milk</span><i>✦</i><span>Made for your ritual</span></div>
         <div className="hero-content">
           <p className="eyebrow">Gourmand body care, arriving soon</p>
           <h1>Indulge your<br /><em>every day.</em></h1>
           <p className="hero-copy">Baked Vanilla and Honey Milk body care, made for the richness of your skin.</p>
           <SubscribeForm />
+          <div className="hero-details"><span>Body butter</span><span>Body oil</span><span>Long on ritual</span></div>
         </div>
         <p className="scroll-note">Scroll to savour <span>↓</span></p>
       </section>
 
       <section className="products reveal" aria-labelledby="collections-title">
-        <div className="section-heading"><p className="eyebrow">The first taste</p><h2 id="collections-title">A little something<br /><em>for your ritual.</em></h2></div>
+        <div className="section-heading"><p className="eyebrow">The first taste</p><h2 id="collections-title">A little something<br /><em>for your skincare ritual.</em></h2></div>
         <div className="product-grid">
           <article className="product-card"><div className="product-image"><Image src="/images/product-baked-vanilla-oil.jpg" alt="GARDIN Baked Vanilla body oil" fill sizes="(max-width: 767px) 100vw, 50vw" /></div><div className="product-meta"><div><h3>Baked Vanilla</h3><p>Body butter + body oil</p></div><span>Coming soon</span></div></article>
           <article className="product-card"><div className="product-image"><Image src="/images/product-honey-milk-butter.jpg" alt="GARDIN Honey Milk body butter" fill sizes="(max-width: 767px) 100vw, 50vw" /></div><div className="product-meta"><div><h3>Honey Milk</h3><p>Body butter</p></div><span>Coming soon</span></div></article>
@@ -130,6 +135,15 @@ export default function Home() {
         <div className="story-image"><Image src="/images/campaign-5.jpg" alt="GARDIN muse holding Baked Vanilla body oil" fill sizes="(max-width: 767px) 100vw, 50vw" /></div>
       </section>
 
+      <section className="ritual-notes reveal" aria-labelledby="notes-title">
+        <div className="ritual-notes-title"><p className="eyebrow">The GARDIN way</p><h2 id="notes-title">A sweet pause,<br /><em>on purpose.</em></h2></div>
+        <div className="ritual-points">
+          <article><span>01</span><h3>Start with scent</h3><p>Warm, dessert-inspired notes that make getting ready feel like an occasion.</p></article>
+          <article><span>02</span><h3>Stay for softness</h3><p>Rich body care that invites you to take an extra minute for yourself.</p></article>
+          <article><span>03</span><h3>Make it yours</h3><p>Layer it. Love it. Wear the ritual exactly how you like it.</p></article>
+        </div>
+      </section>
+
       <section className="community reveal" aria-labelledby="community-title">
         <div className="community-heading"><p className="eyebrow">GARDIN girls</p><h2 id="community-title">Made to be<br /><em>held close.</em></h2><p>Skin, scent, and the art of taking your time.</p></div>
         <div className="mosaic">
@@ -138,6 +152,7 @@ export default function Home() {
       </section>
 
       <section className="launch reveal" aria-labelledby="launch-title">
+        <div className="launch-image"><Image src="/images/campaign-6.jpg" alt="GARDIN campaign portrait" fill sizes="(max-width: 767px) 100vw, 33vw" /></div>
         <div><p className="eyebrow">The table is set</p><h2 id="launch-title">See you<br /><em>at launch.</em></h2><p className="launch-date">Launching 14 November 2026</p><Countdown /></div>
         <div className="launch-form"><p>Be first to know when GARDIN is ready for your shelf.</p><SubscribeForm dark /><div className="launch-socials"><a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a><a href="https://tiktok.com" target="_blank" rel="noreferrer">TikTok</a></div></div>
       </section>
