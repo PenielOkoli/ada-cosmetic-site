@@ -4,6 +4,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "GARDIN Cosmetics — Coming Soon",
   description: "Gourmand body care for skin worth indulging.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
