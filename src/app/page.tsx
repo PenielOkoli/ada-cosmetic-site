@@ -56,22 +56,20 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => { const onScroll = () => setScrolled(window.scrollY > 24); onScroll(); window.addEventListener("scroll", onScroll, { passive: true }); return () => window.removeEventListener("scroll", onScroll); }, []);
   return <main>
-    <div className="announcement">GARDIN COSMETICS <span>✦</span> VANILLA SKINCARE <span>✦</span> COMING SOON</div>
+    <div className="announcement">GARDIN COSMETICS <span>✦</span> COMING SOON</div>
     <nav className={`nav ${scrolled ? "nav-scrolled" : ""}`} aria-label="Main navigation"><a href="#top" className="brand-link"><Brand /></a><Socials /></nav>
 
     <section className="hero" id="top">
       <video className="hero-video" src="/videos/gardin-hero-loop-v2.mp4" autoPlay loop muted playsInline preload="auto" aria-label="GARDIN Cosmetics campaign film" />
       <div className="hero-wash" />
-      <div className="hero-content"><p className="eyebrow">Coming soon · premium vanilla skincare</p><h1>Let your skin linger<br />in <em>something sweet.</em></h1><p className="hero-copy">Thoughtfully crafted body care designed to nourish, soften, and make every day feel like a little more.</p><a className="hero-cta" href="#waitlist">Join the waitlist <span>↓</span></a></div>
-      <div className="coming-ruler" aria-hidden="true"><div className="coming-track"><span>PREMIUM VANILLA SKINCARE <i>✦</i> COMING SOON <i>✦</i> PREMIUM VANILLA SKINCARE <i>✦</i> COMING SOON <i>✦</i></span><span>PREMIUM VANILLA SKINCARE <i>✦</i> COMING SOON <i>✦</i> PREMIUM VANILLA SKINCARE <i>✦</i> COMING SOON <i>✦</i></span><span>PREMIUM VANILLA SKINCARE <i>✦</i> COMING SOON <i>✦</i> PREMIUM VANILLA SKINCARE <i>✦</i> COMING SOON <i>✦</i></span><span>PREMIUM VANILLA SKINCARE <i>✦</i> COMING SOON <i>✦</i> PREMIUM VANILLA SKINCARE <i>✦</i> COMING SOON <i>✦</i></span></div></div>
+      <div className="hero-content"><p className="eyebrow">Coming soon</p><p className="hero-copy hero-copy-short">A little care. A little sweetness.</p><a className="hero-cta" href="#waitlist">Join the waitlist <span>↓</span></a></div>
+      <div className="coming-ruler" aria-hidden="true"><div className="coming-track">{Array.from({ length: 4 }, (_, index) => <span key={index}>GARDIN COSMETICS <i>✦</i> COMING SOON <i>✦</i> GARDIN COSMETICS <i>✦</i> COMING SOON <i>✦</i></span>)}</div></div>
     </section>
 
     <section className="promise reveal" aria-labelledby="promise-title">
-      <div className="promise-copy"><p className="eyebrow">A GARDIN feeling</p><h2 id="promise-title">Sweet, soft,<br /><em>and effortless.</em></h2><p>At GARDIN Cosmetics, we believe self-care should feel sweet, soft, and effortless. We understand that some skin needs a little extra attention, which is why we focus on creating formulas that leave your skin feeling deeply hydrated and beautifully cared for.</p><p>Because skincare isn’t just about how your skin looks—it’s about how you feel.</p></div>
+      <div className="promise-copy"><p className="eyebrow">A GARDIN feeling</p><h2 id="promise-title">Moisture, lasting<br /><em>nourishment &amp; sweetness.</em></h2><p>Because skincare isn’t just about how your skin looks—it’s about how you feel.</p></div>
       <div className="promise-portrait"><Image src="/images/gardin-portrait-solo-clean.png" alt="GARDIN woman in a clean editorial portrait" fill sizes="(max-width: 767px) 100vw, 50vw" /></div>
     </section>
-
-    <section className="values reveal" aria-labelledby="values-title"><div className="values-head"><p className="eyebrow">Your everyday ritual</p><h2 id="values-title">A little more care,<br /><em>every single day.</em></h2></div><div className="value-list"><article><span>01</span><h3>Nourish</h3><p>Thoughtfully crafted care that meets your skin with comfort.</p></article><article><span>02</span><h3>Moisturise</h3><p>Rich textures made for a routine you will look forward to.</p></article><article><span>03</span><h3>Feel good</h3><p>Warm vanilla moments that make slowing down feel natural.</p></article></div></section>
 
     <section className="together reveal" aria-labelledby="together-title"><div className="together-image"><Image src="/images/gardin-portrait-duo-clean.png" alt="Two GARDIN women together in a clean studio portrait" fill sizes="(max-width: 767px) 100vw, 48vw" /></div><div className="together-copy"><p className="eyebrow">Made with care</p><h2 id="together-title">For skin that<br /><em>deserves softness.</em></h2><p>From rich body butters to silky body oils, every GARDIN ritual is designed to bring warmth, moisture, and a touch of sweetness to your day.</p><p className="signature">With love,<br /><strong>GARDIN COSMETICS ✿</strong></p></div></section>
 
