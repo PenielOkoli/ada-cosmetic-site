@@ -9,16 +9,12 @@ function InstagramIcon() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none" /></svg>;
 }
 
-function TikTokIcon() {
-  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4v10.1a3.6 3.6 0 1 1-3-3.55" /><path d="M14 4c.55 2.7 2.25 4.3 5 4.55" /></svg>;
-}
-
 function Brand() {
   return <span className="brand" aria-label="GARDIN Cosmetics"><span>GARDIN</span><i>Cosmetics</i></span>;
 }
 
 function Socials() {
-  return <div className="socials"><a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="GARDIN on Instagram"><InstagramIcon /></a><a href="https://tiktok.com" target="_blank" rel="noreferrer" aria-label="GARDIN on TikTok"><TikTokIcon /></a></div>;
+  return <div className="socials"><a href="https://www.instagram.com/gardincosmetics/" target="_blank" rel="noreferrer" aria-label="GARDIN on Instagram"><InstagramIcon /></a></div>;
 }
 
 function SubscribeForm({ compact = false, collectName = false }: { compact?: boolean; collectName?: boolean }) {
@@ -30,12 +26,13 @@ function SubscribeForm({ compact = false, collectName = false }: { compact?: boo
   async function subscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (collectName && name.trim().length < 2) { setStatus("error"); setMessage("Please enter your name."); return; }
-    if (collectName && !/^\+?[\d\s()\-]{7,}$/.test(whatsapp.trim())) { setStatus("error"); setMessage("Please enter a valid WhatsApp number."); return; }
-    if (!/^\S+@\S+\.\S+$/.test(email)) { setStatus("error"); setMessage("Please enter a valid email address."); return; }
+    if (collectName && (!/^\+?[\d\s()\-]+$/.test(whatsapp.trim()) || !/^\d{7,15}$/.test(whatsapp.replace(/\D/g, "")))) { setStatus("error"); setMessage("Please enter a valid WhatsApp number."); return; }
+    if (!/^\S+@\S+\.\S+$/.test(email.trim())) { setStatus("error"); setMessage("Please enter a valid email address."); return; }
     setStatus("sending"); setMessage("");
     try {
-      const response = await fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: collectName ? name.trim() : undefined, whatsapp: collectName ? whatsapp.trim() : undefined, email }) });
-      if (!response.ok) throw new Error("Failed");
+      const response = await fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: collectName ? name.trim() : undefined, whatsapp: collectName ? whatsapp.trim() : undefined, email: email.trim() }) });
+      const result = await response.json();
+      if (!response.ok || result.ok !== true) { setStatus("error"); setMessage(result.error || "Something went wrong. Please try again."); return; }
       setStatus("success"); setMessage("You’re on the list. We’ll be in touch."); setName(""); setEmail("");
       setWhatsapp("");
     } catch { setStatus("error"); setMessage("Something went wrong. Please try again."); }
@@ -67,14 +64,14 @@ export default function Home() {
     </section>
 
     <section className="promise reveal" aria-labelledby="promise-title">
-      <div className="promise-copy"><p className="eyebrow">A GARDIN feeling</p><h2 id="promise-title">Moisture, lasting<br /><em>nourishment &amp; sweetness.</em></h2><p>Because skincare isn’t just about how your skin looks—it’s about how you feel.</p></div>
+      <div className="promise-copy"><p className="eyebrow">A GARDIN feeling</p><h2 id="promise-title">Moisture, lasting<br /><em>nourishment &amp; sweetness.</em></h2><p>We understand that some skin needs a little extra attention, which is why we focus on creating formulas that leave your skin feeling deeply hydrated and beautifully cared for.</p></div>
       <div className="promise-portrait"><Image src="/images/gardin-portrait-solo-clean.png" alt="GARDIN woman in a clean editorial portrait" fill sizes="(max-width: 767px) 100vw, 50vw" /></div>
     </section>
 
-    <section className="together reveal" aria-labelledby="together-title"><div className="together-image"><Image src="/images/gardin-portrait-duo-clean.png" alt="Two GARDIN women together in a clean studio portrait" fill sizes="(max-width: 767px) 100vw, 48vw" /></div><div className="together-copy"><p className="eyebrow">Made with care</p><h2 id="together-title">For skin that<br /><em>deserves softness.</em></h2><p>From rich body butters to silky body oils, every GARDIN ritual is designed to bring warmth, moisture, and a touch of sweetness to your day.</p><p className="signature">With love,<br /><strong>GARDIN COSMETICS ✿</strong></p></div></section>
+    <section className="together reveal" aria-labelledby="together-title"><div className="together-image"><Image src="/images/gardin-portrait-duo-clean.png" alt="Two GARDIN women together in a clean studio portrait" fill sizes="(max-width: 767px) 100vw, 48vw" /></div><div className="together-copy"><p className="eyebrow">Made with care</p><h2 id="together-title">For a skin that<br /><em>deserves all the nourishment.</em></h2><p>From rich body butters to silky body oils, every GARDIN ritual is designed to bring warmth, moisture, and a touch of sweetness to your day.</p><p className="signature">With love,<br /><strong>GARDIN COSMETICS ✿</strong></p></div></section>
 
     <section className="waitlist reveal" id="waitlist" aria-labelledby="waitlist-title"><Image className="waitlist-image" src="/images/gardin-vanilla-hero.png" alt="Vanilla pods in warm light" fill sizes="100vw" /><div className="waitlist-wash" /><div className="waitlist-content"><p className="eyebrow">The waitlist is open</p><h2 id="waitlist-title">Something soft is<br /><em>coming your way.</em></h2><p>Be among the first to know when GARDIN arrives.</p><Countdown /><SubscribeForm compact collectName /></div></section>
 
-    <footer><Brand /><p>© 2026 GARDIN Cosmetics</p><div className="footer-links"><a href="#top">Back to top</a><a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a></div></footer>
+    <footer><Brand /><p>© 2026 GARDIN Cosmetics</p><div className="footer-links"><a href="#top">Back to top</a><a href="https://www.instagram.com/gardincosmetics/" target="_blank" rel="noreferrer">Instagram</a></div></footer>
   </main>;
 }
