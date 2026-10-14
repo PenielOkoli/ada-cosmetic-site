@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
   <defs>
-    <linearGradient id="gold" x2="1" y2=".6">
-      <stop stop-color="#715316"/>
-      <stop offset=".45" stop-color="#b89843"/>
-      <stop offset="1" stop-color="#8c6a24"/>
+    <linearGradient id="pink" x2="1" y2=".6">
+      <stop stop-color="#9e2e60"/>
+      <stop offset=".45" stop-color="#ee74ad"/>
+      <stop offset="1" stop-color="#c44f85"/>
     </linearGradient>
   </defs>
   <g transform="translate(0 12)">
-    <!-- Gold C, tucked behind the dark-green G. -->
-    <path fill="url(#gold)" d="M165 73 166 96 163 96C158 80 149 72 136 72 114 72 101 92 101 120 101 150 113 169 136 169 149 169 160 162 169 149L172 151C162 167 149 175 133 175 106 175 88 155 88 123 88 91 107 68 135 68 145 68 155 70 165 73Z"/>
+    <!-- Pink C, tucked behind the dark-green G. -->
+    <path fill="url(#pink)" d="M165 73 166 96 163 96C158 80 149 72 136 72 114 72 101 92 101 120 101 150 113 169 136 169 149 169 160 162 169 149L172 151C162 167 149 175 133 175 106 175 88 155 88 123 88 91 107 68 135 68 145 68 155 70 165 73Z"/>
     <!-- Open, high-contrast serif G. -->
     <path fill="#0b1c13" d="M122 39 119 58 116 58C108 42 98 33 82 33 55 33 39 56 39 88 39 119 55 135 80 135 94 135 103 132 108 124L111 98C111 93 108 91 99 91L99 88 129 88 129 91C123 91 121 93 120 99L116 124C106 134 94 140 78 140 48 140 27 120 27 89 27 55 49 29 82 29 97 29 111 33 122 39Z"/>
     <!-- Single leaf and sweeping stem from the reference mark. -->

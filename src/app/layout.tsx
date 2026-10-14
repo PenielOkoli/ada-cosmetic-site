@@ -5,9 +5,9 @@ export const metadata: Metadata = {
   title: "GARDIN Cosmetics — Coming Soon",
   description: "Gourmand body care for skin worth indulging.",
   icons: {
-    icon: "/icon.svg?v=gc-leaf-transparent",
-    shortcut: "/icon.svg?v=gc-leaf-transparent",
-    apple: "/icon.svg?v=gc-leaf-transparent",
+    icon: "/icon.svg?v=gc-leaf-pink",
+    shortcut: "/icon.svg?v=gc-leaf-pink",
+    apple: "/icon.svg?v=gc-leaf-pink",
   },
 };
 

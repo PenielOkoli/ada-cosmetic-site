@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 
-const LAUNCH_DATE = "2026-11-14T10:00:00";
+// Twenty days from 14 October, with an explicit Lagos timezone.
+const LAUNCH_DATE = "2026-11-03T23:59:59+01:00";
 
 function InstagramIcon() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none" /></svg>;
