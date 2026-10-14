@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { --forest:#15372d; --forest-deep:#0c251d; --pink:#ee74ad; --pink-light:#ffc0dc; --blush:#efd3d5; --blush-light:#faf0ee; --rose:#87545e; --cream:#f7f3e9; --paper:#fffcf5; --ink:#1e2a24; --sage:#d9dfd1; --line:rgba(21,55,45,.2); }
+:root { --forest:#15372d; --forest-deep:#0c251d; --pink:#ffa2b9; --pink-light:#ffcfdb; --blush:#efd3d5; --blush-light:#faf0ee; --rose:#87545e; --cream:#f7f3e9; --paper:#fffcf5; --ink:#1e2a24; --sage:#d9dfd1; --line:rgba(21,55,45,.2); }
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; background:var(--cream); }
 body { margin:0; color:var(--ink); background:var(--cream); font-family:"DM Sans",Arial,sans-serif; line-height:1.5; }

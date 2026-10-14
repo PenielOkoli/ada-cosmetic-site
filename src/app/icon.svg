@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
   <defs>
     <linearGradient id="pink" x2="1" y2=".6">
-      <stop stop-color="#9e2e60"/>
-      <stop offset=".45" stop-color="#ee74ad"/>
-      <stop offset="1" stop-color="#c44f85"/>
+      <stop stop-color="#c45b78"/>
+      <stop offset=".45" stop-color="#ffa2b9"/>
+      <stop offset="1" stop-color="#e7809b"/>
     </linearGradient>
   </defs>
   <g transform="translate(0 12)">
