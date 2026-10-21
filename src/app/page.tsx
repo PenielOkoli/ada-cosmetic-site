@@ -3,8 +3,12 @@
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 
-// Twenty days from 14 October, with an explicit Lagos timezone.
-const LAUNCH_DATE = "2026-11-03T23:59:59+01:00";
+// Pre-launch begins on 30 November in Lagos (WAT).
+const LAUNCH_DATE = "2026-11-30T00:00:00+01:00";
+
+function PrelaunchDate() {
+  return <p className="prelaunch-date"><span>PRE-LAUNCH DATE</span><time dateTime={LAUNCH_DATE}>30th Nov, 2026</time></p>;
+}
 
 function InstagramIcon() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none" /></svg>;
@@ -60,7 +64,7 @@ export default function Home() {
     <section className="hero" id="top">
       <video className="hero-video" src="/videos/gardin-hero-loop-v2.mp4" autoPlay loop muted playsInline preload="auto" aria-label="GARDIN Cosmetics campaign film" />
       <div className="hero-wash" />
-      <div className="hero-content"><p className="eyebrow">Coming soon</p><p className="hero-copy hero-copy-short">A little care. A little sweetness.</p><a className="hero-cta" href="#waitlist">Join the waitlist <span>↓</span></a></div>
+      <div className="hero-content"><p className="eyebrow">Coming soon</p><p className="hero-copy hero-copy-short">A little care. A little sweetness.</p><PrelaunchDate /><a className="hero-cta" href="#waitlist">Join the waitlist <span>↓</span></a></div>
       <div className="coming-ruler" aria-hidden="true"><div className="coming-track">{Array.from({ length: 4 }, (_, index) => <span key={index}>GARDIN COSMETICS <i>✦</i> COMING SOON <i>✦</i> GARDIN COSMETICS <i>✦</i> COMING SOON <i>✦</i></span>)}</div></div>
     </section>
 
@@ -71,7 +75,7 @@ export default function Home() {
 
     <section className="together reveal" aria-labelledby="together-title"><div className="together-image"><Image src="/images/gardin-portrait-duo-clean.png" alt="Two GARDIN women together in a clean studio portrait" fill sizes="(max-width: 767px) 100vw, 48vw" /></div><div className="together-copy"><p className="eyebrow">Made with care</p><h2 id="together-title">For a skin that<br /><em>deserves all the nourishment.</em></h2><p>From rich body butters to silky body oils, every GARDIN ritual is designed to bring warmth, moisture, and a touch of sweetness to your day.</p><p className="signature">With love,<br /><strong>GARDIN COSMETICS ✿</strong></p></div></section>
 
-    <section className="waitlist reveal" id="waitlist" aria-labelledby="waitlist-title"><Image className="waitlist-image" src="/images/gardin-vanilla-hero.png" alt="Vanilla pods in warm light" fill sizes="100vw" /><div className="waitlist-wash" /><div className="waitlist-content"><p className="eyebrow">The waitlist is open</p><h2 id="waitlist-title">Something soft is<br /><em>coming your way.</em></h2><p>Be among the first to know when GARDIN arrives.</p><Countdown /><SubscribeForm compact collectName /></div></section>
+    <section className="waitlist reveal" id="waitlist" aria-labelledby="waitlist-title"><Image className="waitlist-image" src="/images/gardin-vanilla-hero.png" alt="Vanilla pods in warm light" fill sizes="100vw" /><div className="waitlist-wash" /><div className="waitlist-content"><p className="eyebrow">The waitlist is open</p><h2 id="waitlist-title">Something soft is<br /><em>coming your way.</em></h2><p>Be among the first to know when GARDIN arrives.</p><PrelaunchDate /><Countdown /><SubscribeForm compact collectName /></div></section>
 
     <footer><Brand /><p>© 2026 GARDIN Cosmetics</p><div className="footer-links"><a href="#top">Back to top</a><a href="https://www.instagram.com/gardincosmetics/" target="_blank" rel="noreferrer">Instagram</a></div></footer>
   </main>;
