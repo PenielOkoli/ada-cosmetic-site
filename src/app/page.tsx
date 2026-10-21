@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 
-// Pre-launch begins on 30 November in Lagos (WAT).
-const LAUNCH_DATE = "2026-11-30T00:00:00+01:00";
+// Pre-launch begins on 30 October in Lagos (WAT).
+const LAUNCH_DATE = "2026-10-30T00:00:00+01:00";
 
 function PrelaunchDate() {
-  return <p className="prelaunch-date"><span>PRE-LAUNCH DATE</span><time dateTime={LAUNCH_DATE}>30th Nov, 2026</time></p>;
+  return <p className="prelaunch-date"><span>PRE-LAUNCH DATE</span><time dateTime={LAUNCH_DATE}>30th Oct, 2026</time></p>;
 }
 
 function InstagramIcon() {
