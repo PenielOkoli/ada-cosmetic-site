@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+// Request-specific CSP nonces require dynamic HTML, not a static cached page.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "GARDIN Cosmetics — Coming Soon",
   description: "Gourmand body care for skin worth indulging.",

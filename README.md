@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GARDIN Cosmetics
 
-## Getting Started
+Responsive pre-launch site built with Next.js 16 App Router, React 19, TypeScript,
+and Tailwind CSS. It retains the green/pink design, local campaign media, looping
+video, and 30 October 2026 pre-launch countdown. There is no cart or payment
+integration yet. Waitlist details are forwarded server-side to the existing
+Formspree endpoint.
 
-First, run the development server:
+## Local development
+
+Use an up-to-date supported Node.js 22 or 24 LTS patch.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm ci
+npm run dev -- --port 3010
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3010. The main page is in `src/app/page.tsx`, styling in
+`src/app/globals.css`, and media in `public/`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Verification
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm test
+npm run build
+npm run typecheck
+npm run verify:production
+npm run audit:production
+```
 
-## Learn More
+Build before running the standalone type check so Next.js can regenerate its
+route types. Do not run build/type generation and the type check concurrently.
+The production verification script starts/stops its own loopback-only server on
+an available port and never sends a real signup to Formspree.
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment and security
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Set `SITE_URL` to the canonical HTTPS origin if using a custom domain. Copy
+`.env.example` to an ignored local env file for configuration; do not commit keys.
+Vercel provides its deployment hostname automatically.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+See [SECURITY.md](SECURITY.md) for controls, residual risks, hosting-level
+configuration, and the payment-launch checklist. In-process rate limits are
+best-effort only; persistent WAF/rate limits and privacy/legal review remain
+required. No payment-provider approval or regulatory compliance is implied.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The development-tool overrides patch minimatch's glob amplification issue and
+postcss-selector-parser's selector-parsing issue; review/remove these overrides
+when upstream dependencies incorporate the fixed versions.

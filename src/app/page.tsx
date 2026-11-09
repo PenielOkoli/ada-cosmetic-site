@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState, useSyncExternalStore } from "react";
 
 // Pre-launch begins on 30 October in Lagos (WAT).
 const LAUNCH_DATE = "2026-10-30T00:00:00+01:00";
@@ -30,33 +30,47 @@ function SubscribeForm({ compact = false, collectName = false }: { compact?: boo
   const [message, setMessage] = useState("");
   async function subscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (status === "sending") return;
+    const websiteField = event.currentTarget.elements.namedItem("website") as HTMLInputElement | null;
+    const website = websiteField?.value || "";
     if (collectName && name.trim().length < 2) { setStatus("error"); setMessage("Please enter your name."); return; }
     if (collectName && (!/^\+?[\d\s()\-]+$/.test(whatsapp.trim()) || !/^\d{7,15}$/.test(whatsapp.replace(/\D/g, "")))) { setStatus("error"); setMessage("Please enter a valid WhatsApp number."); return; }
     if (!/^\S+@\S+\.\S+$/.test(email.trim())) { setStatus("error"); setMessage("Please enter a valid email address."); return; }
     setStatus("sending"); setMessage("");
     try {
-      const response = await fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: collectName ? name.trim() : undefined, whatsapp: collectName ? whatsapp.trim() : undefined, email: email.trim() }) });
+      const response = await fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: collectName ? name.trim() : undefined, whatsapp: collectName ? whatsapp.trim() : undefined, email: email.trim(), website }) });
       const result = await response.json();
       if (!response.ok || result.ok !== true) { setStatus("error"); setMessage(result.error || "Something went wrong. Please try again."); return; }
       setStatus("success"); setMessage("You’re on the list. We’ll be in touch."); setName(""); setEmail("");
       setWhatsapp("");
     } catch { setStatus("error"); setMessage("Something went wrong. Please try again."); }
   }
-  return <form className={`subscribe-form ${compact ? "subscribe-compact" : ""}`} onSubmit={subscribe} noValidate>{collectName && <div className="form-details"><label className="sr-only" htmlFor="waitlist-name">Full name</label><input id="waitlist-name" type="text" autoComplete="name" placeholder="Your full name" value={name} onChange={(event) => setName(event.target.value)} aria-invalid={status === "error"} /><label className="sr-only" htmlFor="waitlist-whatsapp">WhatsApp number</label><input id="waitlist-whatsapp" type="tel" inputMode="tel" autoComplete="tel" placeholder="WhatsApp number" value={whatsapp} onChange={(event) => setWhatsapp(event.target.value)} aria-invalid={status === "error"} /></div>}<div className="form-row"><label className="sr-only" htmlFor={compact ? "footer-email" : "hero-email"}>Email address</label><input id={compact ? "footer-email" : "hero-email"} type="email" inputMode="email" autoComplete="email" placeholder="Your email address" value={email} onChange={(event) => setEmail(event.target.value)} aria-invalid={status === "error"} /><button type="submit" disabled={status === "sending"}>{status === "sending" ? "Joining…" : "Join the waitlist"}</button></div><p className={`form-message ${status}`} aria-live="polite">{message}</p></form>;
+  return <form className={`subscribe-form ${compact ? "subscribe-compact" : ""}`} onSubmit={subscribe} noValidate aria-busy={status === "sending"}><div className="sr-only" aria-hidden="true"><label htmlFor={compact ? "footer-website" : "hero-website"}>Leave this field empty</label><input id={compact ? "footer-website" : "hero-website"} name="website" type="text" tabIndex={-1} autoComplete="off" maxLength={200} /></div>{collectName && <div className="form-details"><label className="sr-only" htmlFor="waitlist-name">Full name</label><input id="waitlist-name" name="name" type="text" maxLength={200} required autoComplete="name" placeholder="Your full name" value={name} onChange={(event) => setName(event.target.value)} aria-invalid={status === "error"} /><label className="sr-only" htmlFor="waitlist-whatsapp">WhatsApp number</label><input id="waitlist-whatsapp" name="whatsapp" type="tel" maxLength={32} required inputMode="tel" autoComplete="tel" placeholder="WhatsApp number" value={whatsapp} onChange={(event) => setWhatsapp(event.target.value)} aria-invalid={status === "error"} /></div>}<div className="form-row"><label className="sr-only" htmlFor={compact ? "footer-email" : "hero-email"}>Email address</label><input id={compact ? "footer-email" : "hero-email"} type="email" name="email" maxLength={254} required inputMode="email" autoComplete="email" placeholder="Your email address" value={email} onChange={(event) => setEmail(event.target.value)} aria-invalid={status === "error"} /><button type="submit" disabled={status === "sending"}>{status === "sending" ? "Joining…" : "Join the waitlist"}</button></div><p className={`form-message ${status}`} aria-live="polite">{message}</p></form>;
+}
+
+function subscribeToClock(onChange: () => void) {
+  const timer = window.setInterval(onChange, 60000);
+  return () => window.clearInterval(timer);
 }
 
 function Countdown() {
-  const [time, setTime] = useState({ days: "00", hours: "00", minutes: "00" });
-  useEffect(() => {
-    const update = () => { const difference = Math.max(0, new Date(LAUNCH_DATE).getTime() - Date.now()); setTime({ days: String(Math.floor(difference / 86400000)).padStart(2, "0"), hours: String(Math.floor((difference / 3600000) % 24)).padStart(2, "0"), minutes: String(Math.floor((difference / 60000) % 60)).padStart(2, "0") }); };
-    update(); const interval = window.setInterval(update, 60000); return () => window.clearInterval(interval);
-  }, []);
-  return <div className="countdown" aria-label="Countdown to launch"><span><b>{time.days}</b>days</span><span><b>{time.hours}</b>hours</span><span><b>{time.minutes}</b>mins</span></div>;
+  const now = useSyncExternalStore<number | null>(subscribeToClock, () => Math.floor(Date.now() / 60000) * 60000, () => null);
+  const difference = now === null ? null : Math.max(0, new Date(LAUNCH_DATE).getTime() - now);
+  const units = difference === null ? ["—", "—", "—"] : [
+    String(Math.floor(difference / 86400000)).padStart(2, "0"),
+    String(Math.floor((difference / 3600000) % 24)).padStart(2, "0"),
+    String(Math.floor((difference / 60000) % 60)).padStart(2, "0"),
+  ];
+  return <div className="countdown" aria-label="Countdown to launch"><span><b>{units[0]}</b>days</span><span><b>{units[1]}</b>hours</span><span><b>{units[2]}</b>mins</span></div>;
+}
+
+function subscribeToScroll(onChange: () => void) {
+  window.addEventListener("scroll", onChange, { passive: true });
+  return () => window.removeEventListener("scroll", onChange);
 }
 
 export default function Home() {
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => { const onScroll = () => setScrolled(window.scrollY > 24); onScroll(); window.addEventListener("scroll", onScroll, { passive: true }); return () => window.removeEventListener("scroll", onScroll); }, []);
+  const scrolled = useSyncExternalStore(subscribeToScroll, () => window.scrollY > 24, () => false);
   return <main>
     <div className="announcement">GARDIN COSMETICS <span>✦</span> COMING SOON</div>
     <nav className={`nav ${scrolled ? "nav-scrolled" : ""}`} aria-label="Main navigation"><a href="#top" className="brand-link"><Brand /></a><Socials /></nav>
