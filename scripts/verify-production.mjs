@@ -41,9 +41,30 @@ try {
   assert.match(page.headers.get("cache-control"), /no-store/);
   assert.ok(html.includes("30th Oct, 2026"));
   assert.ok(html.includes('name="website"'));
+  assert.ok(html.includes("https://fonts.googleapis.com/css2?family=DM+Sans"), "Brand font stylesheet must survive production bundling");
+  assert.ok(html.includes("family=Playfair+Display"));
+  assert.ok(html.includes("family=Parisienne"));
   const scripts = [...html.matchAll(/<script\b([^>]*)>/g)];
   assert.ok(scripts.length > 0);
   for (const [, attributes] of scripts) assert.ok(attributes.includes(`nonce="${nonce}"`), "Every Next.js script must match its response nonce");
+  const stylesheetUrls = [...html.matchAll(/<link\b([^>]+)>/g)]
+    .filter(([, attributes]) => /rel="stylesheet"/.test(attributes))
+    .map(([, attributes]) => attributes.match(/href="([^"]+)"/)?.[1])
+    .filter(url => url?.startsWith("/_next/"));
+  assert.ok(stylesheetUrls.length > 0, "The production page must serve its compiled styles");
+  let compiledStyles = "";
+  for (const url of stylesheetUrls) {
+    const stylesheet = await fetch(new URL(url.replaceAll("&amp;", "&"), origin));
+    assert.equal(stylesheet.status, 200);
+    compiledStyles += await stylesheet.text();
+  }
+  // Production minification strips the Tailwind version banner; inspect output.
+  assert.ok(/@layer theme\b/.test(compiledStyles), "Compiled Tailwind theme layer is missing");
+  assert.ok(/@layer utilities\b/.test(compiledStyles), "Compiled Tailwind utilities layer is missing");
+  assert.ok(/--pink:\s*#ffa2b9/.test(compiledStyles), "Brand pink changed in production CSS");
+  assert.ok(/--forest:\s*#15372d/.test(compiledStyles), "Brand green changed in production CSS");
+  assert.ok(compiledStyles.includes(".sr-only"));
+  assert.ok(!/@tailwind\s/.test(compiledStyles));
   const second = await fetch(origin);
   assert.notEqual(second.headers.get("content-security-policy")?.match(/'nonce-([^']+)'/)?.[1], nonce);
   await second.body.cancel();
@@ -65,7 +86,7 @@ try {
   assert.match(image.headers.get("content-type"), /image\/webp/);
   await image.body.cancel();
   assert.equal((await fetch(`${origin}/_next/image?url=https%3A%2F%2Fexample.com%2Fimage.png&w=640&q=75`)).status, 400);
-  console.log("PASS: production HTTP headers, fresh CSP nonces on every rendered script, no-store HTML, preserved date/form, blocked unsafe submissions, local image optimization, and blocked remote image sources. No real signup sent.");
+  console.log("PASS: production HTTP headers, fresh CSP nonces on every rendered script, compiled Tailwind 4/brand styles, no-store HTML, preserved date/form, blocked unsafe submissions, local image optimization, and blocked remote image sources. No real signup sent.");
 } finally {
   const stopped = once(child, "exit").catch(() => {});
   child.kill();

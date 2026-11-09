@@ -4,4 +4,9 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    groups:
+      tailwind:
+        patterns:
+          - tailwindcss
+          - "@tailwindcss/*"
     open-pull-requests-limit: 5

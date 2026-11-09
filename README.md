@@ -1,7 +1,7 @@
 # GARDIN Cosmetics
 
 Responsive pre-launch site built with Next.js 16 App Router, React 19, TypeScript,
-and Tailwind CSS. It retains the green/pink design, local campaign media, looping
+and Tailwind CSS 4. It retains the green/pink design, local campaign media, looping
 video, and 30 October 2026 pre-launch countdown. There is no cart or payment
 integration yet. Waitlist details are forwarded server-side to the existing
 Formspree endpoint.
@@ -45,6 +45,16 @@ configuration, and the payment-launch checklist. In-process rate limits are
 best-effort only; persistent WAF/rate limits and privacy/legal review remain
 required. No payment-provider approval or regulatory compliance is implied.
 
-The development-tool overrides patch minimatch's glob amplification issue and
-postcss-selector-parser's selector-parsing issue; review/remove these overrides
-when upstream dependencies incorporate the fixed versions.
+Tailwind 4 uses the matching `@tailwindcss/postcss` plugin and the CSS-first
+`@import "tailwindcss"` entry. Source detection is restricted to `src/`. There is
+no legacy Tailwind JavaScript config or separate Autoprefixer step. Upgrade
+`tailwindcss` and `@tailwindcss/postcss` together and run the verification commands
+above before merging a dependency update. Dependabot groups the Tailwind packages
+into one update proposal. Tailwind 4 requires Safari 16.4+,
+Chrome 111+, or Firefox 128+.
+
+The existing Google Fonts stylesheet is linked in the root document head rather
+than imported through the CSS bundler, keeping the brand typefaces available.
+
+The development-tool override patches minimatch's glob amplification issue;
+review/remove it when upstream dependencies incorporate the fixed version.
